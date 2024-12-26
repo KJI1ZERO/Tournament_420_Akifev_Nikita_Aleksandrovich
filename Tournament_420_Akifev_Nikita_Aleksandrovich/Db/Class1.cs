@@ -8,6 +8,6 @@ namespace Tournament_420_Akifev_Nikita_Aleksandrovich.Db
 {
     internal class Class1
     {
-        public static TournamentDBEntities tournamentDBEntities = new TournamentDBEntities();
+        public static TournamentDBEntities tournamentDBEntities = new TournamentDBEntities(); 
     }
 }
