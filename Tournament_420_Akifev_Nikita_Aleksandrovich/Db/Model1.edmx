@@ -1,0 +1,584 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище TournamentDB_420_Akifev_Nikita_AleksandrovichModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Level_dostupa">
+          <Key>
+            <PropertyRef Name="Id_dostup" />
+          </Key>
+          <Property Name="Id_dostup" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Matches">
+          <Key>
+            <PropertyRef Name="Id_matches" />
+          </Key>
+          <Property Name="Id_matches" Type="int" Nullable="false" />
+          <Property Name="Id_turnir" Type="int" />
+          <Property Name="Id_player" Type="int" />
+          <Property Name="Date_Begin_matches" Type="date" />
+          <Property Name="result_matches" Type="nvarchar" MaxLength="50" />
+          <Property Name="time_matches" Type="nvarchar" MaxLength="50" />
+          <Property Name="NameCommand" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Organizator">
+          <Key>
+            <PropertyRef Name="Id_org" />
+          </Key>
+          <Property Name="Id_org" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="12" />
+          <Property Name="Login" Type="nvarchar" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" />
+          <Property Name="History_proved_matches" Type="nvarchar" MaxLength="50" />
+          <Property Name="Id_dostup" Type="int" />
+        </EntityType>
+        <EntityType Name="Players">
+          <Key>
+            <PropertyRef Name="Id_player" />
+          </Key>
+          <Property Name="Id_player" Type="int" Nullable="false" />
+          <Property Name="Nickname" Type="nvarchar" MaxLength="150" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="12" />
+          <Property Name="Rang" Type="nchar" MaxLength="30" />
+          <Property Name="Role" Type="nvarchar" MaxLength="50" />
+          <Property Name="kol_vo_matches" Type="int" />
+          <Property Name="kol_vo_win" Type="int" />
+          <Property Name="kol_vo_lose" Type="int" />
+          <Property Name="kol_vo_mvp" Type="int" />
+          <Property Name="NameCommand" Type="nvarchar" MaxLength="50" />
+          <Property Name="Game" Type="nvarchar" MaxLength="50" />
+          <Property Name="Login" Type="nvarchar" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Status_turnir">
+          <Key>
+            <PropertyRef Name="Id_status_turnir" />
+          </Key>
+          <Property Name="Id_status_turnir" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Turnir_tables">
+          <Key>
+            <PropertyRef Name="Id_Turnir_tables" />
+          </Key>
+          <Property Name="Id_Turnir_tables" Type="int" Nullable="false" />
+          <Property Name="Id_turnir" Type="int" />
+          <Property Name="Id_player" Type="int" />
+          <Property Name="Score" Type="int" />
+          <Property Name="kol_vo_win" Type="int" />
+          <Property Name="kol_vo_lose" Type="int" />
+          <Property Name="Mesto_v_table" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Turnirs">
+          <Key>
+            <PropertyRef Name="Id_turnir" />
+          </Key>
+          <Property Name="Id_turnir" Type="int" Nullable="false" />
+          <Property Name="Name_turnir" Type="nvarchar" MaxLength="150" />
+          <Property Name="Name_Game" Type="nvarchar" MaxLength="50" />
+          <Property Name="Format_turnir" Type="nvarchar" MaxLength="50" />
+          <Property Name="Date_Begin_turnirs" Type="date" />
+          <Property Name="Priz_fond" Type="int" />
+          <Property Name="kol_vo_player" Type="nchar" MaxLength="10" />
+          <Property Name="Id_status_turnir" Type="int" Nullable="false" />
+          <Property Name="Id_org" Type="int" />
+        </EntityType>
+        <Association Name="FK_Matches_Players">
+          <End Role="Players" Type="Self.Players" Multiplicity="0..1" />
+          <End Role="Matches" Type="Self.Matches" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Players">
+              <PropertyRef Name="Id_player" />
+            </Principal>
+            <Dependent Role="Matches">
+              <PropertyRef Name="Id_player" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Matches_Turnirs">
+          <End Role="Turnirs" Type="Self.Turnirs" Multiplicity="0..1" />
+          <End Role="Matches" Type="Self.Matches" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Turnirs">
+              <PropertyRef Name="Id_turnir" />
+            </Principal>
+            <Dependent Role="Matches">
+              <PropertyRef Name="Id_turnir" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Organizator_Level_dostupa">
+          <End Role="Level_dostupa" Type="Self.Level_dostupa" Multiplicity="0..1" />
+          <End Role="Organizator" Type="Self.Organizator" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Level_dostupa">
+              <PropertyRef Name="Id_dostup" />
+            </Principal>
+            <Dependent Role="Organizator">
+              <PropertyRef Name="Id_dostup" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Turnir_tables_Players">
+          <End Role="Players" Type="Self.Players" Multiplicity="0..1" />
+          <End Role="Turnir_tables" Type="Self.Turnir_tables" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Players">
+              <PropertyRef Name="Id_player" />
+            </Principal>
+            <Dependent Role="Turnir_tables">
+              <PropertyRef Name="Id_player" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Turnir_tables_Turnirs">
+          <End Role="Turnirs" Type="Self.Turnirs" Multiplicity="0..1" />
+          <End Role="Turnir_tables" Type="Self.Turnir_tables" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Turnirs">
+              <PropertyRef Name="Id_turnir" />
+            </Principal>
+            <Dependent Role="Turnir_tables">
+              <PropertyRef Name="Id_turnir" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Turnirs_Organizator">
+          <End Role="Organizator" Type="Self.Organizator" Multiplicity="0..1" />
+          <End Role="Turnirs" Type="Self.Turnirs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Organizator">
+              <PropertyRef Name="Id_org" />
+            </Principal>
+            <Dependent Role="Turnirs">
+              <PropertyRef Name="Id_org" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Turnirs_Status_turnir">
+          <End Role="Status_turnir" Type="Self.Status_turnir" Multiplicity="1" />
+          <End Role="Turnirs" Type="Self.Turnirs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status_turnir">
+              <PropertyRef Name="Id_status_turnir" />
+            </Principal>
+            <Dependent Role="Turnirs">
+              <PropertyRef Name="Id_status_turnir" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище TournamentDB_420_Akifev_Nikita_AleksandrovichModelContainer">
+          <EntitySet Name="Level_dostupa" EntityType="Self.Level_dostupa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Matches" EntityType="Self.Matches" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Organizator" EntityType="Self.Organizator" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Players" EntityType="Self.Players" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Status_turnir" EntityType="Self.Status_turnir" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Turnir_tables" EntityType="Self.Turnir_tables" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Turnirs" EntityType="Self.Turnirs" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Matches_Players" Association="Self.FK_Matches_Players">
+            <End Role="Players" EntitySet="Players" />
+            <End Role="Matches" EntitySet="Matches" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Matches_Turnirs" Association="Self.FK_Matches_Turnirs">
+            <End Role="Turnirs" EntitySet="Turnirs" />
+            <End Role="Matches" EntitySet="Matches" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Organizator_Level_dostupa" Association="Self.FK_Organizator_Level_dostupa">
+            <End Role="Level_dostupa" EntitySet="Level_dostupa" />
+            <End Role="Organizator" EntitySet="Organizator" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Turnir_tables_Players" Association="Self.FK_Turnir_tables_Players">
+            <End Role="Players" EntitySet="Players" />
+            <End Role="Turnir_tables" EntitySet="Turnir_tables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Turnir_tables_Turnirs" Association="Self.FK_Turnir_tables_Turnirs">
+            <End Role="Turnirs" EntitySet="Turnirs" />
+            <End Role="Turnir_tables" EntitySet="Turnir_tables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Turnirs_Organizator" Association="Self.FK_Turnirs_Organizator">
+            <End Role="Organizator" EntitySet="Organizator" />
+            <End Role="Turnirs" EntitySet="Turnirs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Turnirs_Status_turnir" Association="Self.FK_Turnirs_Status_turnir">
+            <End Role="Status_turnir" EntitySet="Status_turnir" />
+            <End Role="Turnirs" EntitySet="Turnirs" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TournamentDB_420_Akifev_Nikita_AleksandrovichModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Level_dostupa">
+          <Key>
+            <PropertyRef Name="Id_dostup" />
+          </Key>
+          <Property Name="Id_dostup" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Organizator" Relationship="Self.FK_Organizator_Level_dostupa" FromRole="Level_dostupa" ToRole="Organizator" />
+        </EntityType>
+        <EntityType Name="Matches">
+          <Key>
+            <PropertyRef Name="Id_matches" />
+          </Key>
+          <Property Name="Id_matches" Type="Int32" Nullable="false" />
+          <Property Name="Id_turnir" Type="Int32" />
+          <Property Name="Id_player" Type="Int32" />
+          <Property Name="Date_Begin_matches" Type="DateTime" Precision="0" />
+          <Property Name="result_matches" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="time_matches" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NameCommand" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Players" Relationship="Self.FK_Matches_Players" FromRole="Matches" ToRole="Players" />
+          <NavigationProperty Name="Turnirs" Relationship="Self.FK_Matches_Turnirs" FromRole="Matches" ToRole="Turnirs" />
+        </EntityType>
+        <EntityType Name="Organizator">
+          <Key>
+            <PropertyRef Name="Id_org" />
+          </Key>
+          <Property Name="Id_org" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="History_proved_matches" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Id_dostup" Type="Int32" />
+          <NavigationProperty Name="Level_dostupa" Relationship="Self.FK_Organizator_Level_dostupa" FromRole="Organizator" ToRole="Level_dostupa" />
+          <NavigationProperty Name="Turnirs" Relationship="Self.FK_Turnirs_Organizator" FromRole="Organizator" ToRole="Turnirs" />
+        </EntityType>
+        <EntityType Name="Players">
+          <Key>
+            <PropertyRef Name="Id_player" />
+          </Key>
+          <Property Name="Id_player" Type="Int32" Nullable="false" />
+          <Property Name="Nickname" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="Rang" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="kol_vo_matches" Type="Int32" />
+          <Property Name="kol_vo_win" Type="Int32" />
+          <Property Name="kol_vo_lose" Type="Int32" />
+          <Property Name="kol_vo_mvp" Type="Int32" />
+          <Property Name="NameCommand" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Game" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Matches" Relationship="Self.FK_Matches_Players" FromRole="Players" ToRole="Matches" />
+          <NavigationProperty Name="Turnir_tables" Relationship="Self.FK_Turnir_tables_Players" FromRole="Players" ToRole="Turnir_tables" />
+        </EntityType>
+        <EntityType Name="Status_turnir">
+          <Key>
+            <PropertyRef Name="Id_status_turnir" />
+          </Key>
+          <Property Name="Id_status_turnir" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Turnirs" Relationship="Self.FK_Turnirs_Status_turnir" FromRole="Status_turnir" ToRole="Turnirs" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Turnir_tables">
+          <Key>
+            <PropertyRef Name="Id_Turnir_tables" />
+          </Key>
+          <Property Name="Id_Turnir_tables" Type="Int32" Nullable="false" />
+          <Property Name="Id_turnir" Type="Int32" />
+          <Property Name="Id_player" Type="Int32" />
+          <Property Name="Score" Type="Int32" />
+          <Property Name="kol_vo_win" Type="Int32" />
+          <Property Name="kol_vo_lose" Type="Int32" />
+          <Property Name="Mesto_v_table" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Players" Relationship="Self.FK_Turnir_tables_Players" FromRole="Turnir_tables" ToRole="Players" />
+          <NavigationProperty Name="Turnirs" Relationship="Self.FK_Turnir_tables_Turnirs" FromRole="Turnir_tables" ToRole="Turnirs" />
+        </EntityType>
+        <EntityType Name="Turnirs">
+          <Key>
+            <PropertyRef Name="Id_turnir" />
+          </Key>
+          <Property Name="Id_turnir" Type="Int32" Nullable="false" />
+          <Property Name="Name_turnir" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Name_Game" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Format_turnir" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Date_Begin_turnirs" Type="DateTime" Precision="0" />
+          <Property Name="Priz_fond" Type="Int32" />
+          <Property Name="kol_vo_player" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Id_status_turnir" Type="Int32" Nullable="false" />
+          <Property Name="Id_org" Type="Int32" />
+          <NavigationProperty Name="Matches" Relationship="Self.FK_Matches_Turnirs" FromRole="Turnirs" ToRole="Matches" />
+          <NavigationProperty Name="Organizator" Relationship="Self.FK_Turnirs_Organizator" FromRole="Turnirs" ToRole="Organizator" />
+          <NavigationProperty Name="Status_turnir" Relationship="Self.FK_Turnirs_Status_turnir" FromRole="Turnirs" ToRole="Status_turnir" />
+          <NavigationProperty Name="Turnir_tables" Relationship="Self.FK_Turnir_tables_Turnirs" FromRole="Turnirs" ToRole="Turnir_tables" />
+        </EntityType>
+        <Association Name="FK_Organizator_Level_dostupa">
+          <End Role="Level_dostupa" Type="Self.Level_dostupa" Multiplicity="0..1" />
+          <End Role="Organizator" Type="Self.Organizator" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Level_dostupa">
+              <PropertyRef Name="Id_dostup" />
+            </Principal>
+            <Dependent Role="Organizator">
+              <PropertyRef Name="Id_dostup" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Matches_Players">
+          <End Role="Players" Type="Self.Players" Multiplicity="0..1" />
+          <End Role="Matches" Type="Self.Matches" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Players">
+              <PropertyRef Name="Id_player" />
+            </Principal>
+            <Dependent Role="Matches">
+              <PropertyRef Name="Id_player" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Matches_Turnirs">
+          <End Role="Turnirs" Type="Self.Turnirs" Multiplicity="0..1" />
+          <End Role="Matches" Type="Self.Matches" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Turnirs">
+              <PropertyRef Name="Id_turnir" />
+            </Principal>
+            <Dependent Role="Matches">
+              <PropertyRef Name="Id_turnir" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Turnirs_Organizator">
+          <End Role="Organizator" Type="Self.Organizator" Multiplicity="0..1" />
+          <End Role="Turnirs" Type="Self.Turnirs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Organizator">
+              <PropertyRef Name="Id_org" />
+            </Principal>
+            <Dependent Role="Turnirs">
+              <PropertyRef Name="Id_org" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Turnir_tables_Players">
+          <End Role="Players" Type="Self.Players" Multiplicity="0..1" />
+          <End Role="Turnir_tables" Type="Self.Turnir_tables" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Players">
+              <PropertyRef Name="Id_player" />
+            </Principal>
+            <Dependent Role="Turnir_tables">
+              <PropertyRef Name="Id_player" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Turnirs_Status_turnir">
+          <End Role="Status_turnir" Type="Self.Status_turnir" Multiplicity="1" />
+          <End Role="Turnirs" Type="Self.Turnirs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status_turnir">
+              <PropertyRef Name="Id_status_turnir" />
+            </Principal>
+            <Dependent Role="Turnirs">
+              <PropertyRef Name="Id_status_turnir" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Turnir_tables_Turnirs">
+          <End Role="Turnirs" Type="Self.Turnirs" Multiplicity="0..1" />
+          <End Role="Turnir_tables" Type="Self.Turnir_tables" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Turnirs">
+              <PropertyRef Name="Id_turnir" />
+            </Principal>
+            <Dependent Role="Turnir_tables">
+              <PropertyRef Name="Id_turnir" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TournamentDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Level_dostupa" EntityType="Self.Level_dostupa" />
+          <EntitySet Name="Matches" EntityType="Self.Matches" />
+          <EntitySet Name="Organizator" EntityType="Self.Organizator" />
+          <EntitySet Name="Players" EntityType="Self.Players" />
+          <EntitySet Name="Status_turnir" EntityType="Self.Status_turnir" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Turnir_tables" EntityType="Self.Turnir_tables" />
+          <EntitySet Name="Turnirs" EntityType="Self.Turnirs" />
+          <AssociationSet Name="FK_Organizator_Level_dostupa" Association="Self.FK_Organizator_Level_dostupa">
+            <End Role="Level_dostupa" EntitySet="Level_dostupa" />
+            <End Role="Organizator" EntitySet="Organizator" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Matches_Players" Association="Self.FK_Matches_Players">
+            <End Role="Players" EntitySet="Players" />
+            <End Role="Matches" EntitySet="Matches" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Matches_Turnirs" Association="Self.FK_Matches_Turnirs">
+            <End Role="Turnirs" EntitySet="Turnirs" />
+            <End Role="Matches" EntitySet="Matches" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Turnirs_Organizator" Association="Self.FK_Turnirs_Organizator">
+            <End Role="Organizator" EntitySet="Organizator" />
+            <End Role="Turnirs" EntitySet="Turnirs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Turnir_tables_Players" Association="Self.FK_Turnir_tables_Players">
+            <End Role="Players" EntitySet="Players" />
+            <End Role="Turnir_tables" EntitySet="Turnir_tables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Turnirs_Status_turnir" Association="Self.FK_Turnirs_Status_turnir">
+            <End Role="Status_turnir" EntitySet="Status_turnir" />
+            <End Role="Turnirs" EntitySet="Turnirs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Turnir_tables_Turnirs" Association="Self.FK_Turnir_tables_Turnirs">
+            <End Role="Turnirs" EntitySet="Turnirs" />
+            <End Role="Turnir_tables" EntitySet="Turnir_tables" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище TournamentDB_420_Akifev_Nikita_AleksandrovichModelContainer" CdmEntityContainer="TournamentDBEntities">
+          <EntitySetMapping Name="Level_dostupa">
+            <EntityTypeMapping TypeName="TournamentDB_420_Akifev_Nikita_AleksandrovichModel.Level_dostupa">
+              <MappingFragment StoreEntitySet="Level_dostupa">
+                <ScalarProperty Name="Id_dostup" ColumnName="Id_dostup" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Matches">
+            <EntityTypeMapping TypeName="TournamentDB_420_Akifev_Nikita_AleksandrovichModel.Matches">
+              <MappingFragment StoreEntitySet="Matches">
+                <ScalarProperty Name="Id_matches" ColumnName="Id_matches" />
+                <ScalarProperty Name="Id_turnir" ColumnName="Id_turnir" />
+                <ScalarProperty Name="Id_player" ColumnName="Id_player" />
+                <ScalarProperty Name="Date_Begin_matches" ColumnName="Date_Begin_matches" />
+                <ScalarProperty Name="result_matches" ColumnName="result_matches" />
+                <ScalarProperty Name="time_matches" ColumnName="time_matches" />
+                <ScalarProperty Name="NameCommand" ColumnName="NameCommand" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Organizator">
+            <EntityTypeMapping TypeName="TournamentDB_420_Akifev_Nikita_AleksandrovichModel.Organizator">
+              <MappingFragment StoreEntitySet="Organizator">
+                <ScalarProperty Name="Id_org" ColumnName="Id_org" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="History_proved_matches" ColumnName="History_proved_matches" />
+                <ScalarProperty Name="Id_dostup" ColumnName="Id_dostup" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Players">
+            <EntityTypeMapping TypeName="TournamentDB_420_Akifev_Nikita_AleksandrovichModel.Players">
+              <MappingFragment StoreEntitySet="Players">
+                <ScalarProperty Name="Id_player" ColumnName="Id_player" />
+                <ScalarProperty Name="Nickname" ColumnName="Nickname" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Rang" ColumnName="Rang" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="kol_vo_matches" ColumnName="kol_vo_matches" />
+                <ScalarProperty Name="kol_vo_win" ColumnName="kol_vo_win" />
+                <ScalarProperty Name="kol_vo_lose" ColumnName="kol_vo_lose" />
+                <ScalarProperty Name="kol_vo_mvp" ColumnName="kol_vo_mvp" />
+                <ScalarProperty Name="NameCommand" ColumnName="NameCommand" />
+                <ScalarProperty Name="Game" ColumnName="Game" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Status_turnir">
+            <EntityTypeMapping TypeName="TournamentDB_420_Akifev_Nikita_AleksandrovichModel.Status_turnir">
+              <MappingFragment StoreEntitySet="Status_turnir">
+                <ScalarProperty Name="Id_status_turnir" ColumnName="Id_status_turnir" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="TournamentDB_420_Akifev_Nikita_AleksandrovichModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Turnir_tables">
+            <EntityTypeMapping TypeName="TournamentDB_420_Akifev_Nikita_AleksandrovichModel.Turnir_tables">
+              <MappingFragment StoreEntitySet="Turnir_tables">
+                <ScalarProperty Name="Id_Turnir_tables" ColumnName="Id_Turnir_tables" />
+                <ScalarProperty Name="Id_turnir" ColumnName="Id_turnir" />
+                <ScalarProperty Name="Id_player" ColumnName="Id_player" />
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="kol_vo_win" ColumnName="kol_vo_win" />
+                <ScalarProperty Name="kol_vo_lose" ColumnName="kol_vo_lose" />
+                <ScalarProperty Name="Mesto_v_table" ColumnName="Mesto_v_table" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Turnirs">
+            <EntityTypeMapping TypeName="TournamentDB_420_Akifev_Nikita_AleksandrovichModel.Turnirs">
+              <MappingFragment StoreEntitySet="Turnirs">
+                <ScalarProperty Name="Id_turnir" ColumnName="Id_turnir" />
+                <ScalarProperty Name="Name_turnir" ColumnName="Name_turnir" />
+                <ScalarProperty Name="Name_Game" ColumnName="Name_Game" />
+                <ScalarProperty Name="Format_turnir" ColumnName="Format_turnir" />
+                <ScalarProperty Name="Date_Begin_turnirs" ColumnName="Date_Begin_turnirs" />
+                <ScalarProperty Name="Priz_fond" ColumnName="Priz_fond" />
+                <ScalarProperty Name="kol_vo_player" ColumnName="kol_vo_player" />
+                <ScalarProperty Name="Id_status_turnir" ColumnName="Id_status_turnir" />
+                <ScalarProperty Name="Id_org" ColumnName="Id_org" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
